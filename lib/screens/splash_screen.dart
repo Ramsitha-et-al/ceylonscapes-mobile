@@ -1,4 +1,6 @@
 import 'package:CeylonScape/controllers/screen_controller.dart';
+import 'package:CeylonScape/screens/signin_screen.dart';
+import 'package:CeylonScape/services/auth_service.dart';
 import 'package:CeylonScape/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,6 +18,7 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   final ScreenController _screenController = Get.find();
+  final AuthService _authService = Get.find();
 
   @override
   void initState() {
@@ -27,7 +30,11 @@ class SplashScreenState extends State<SplashScreen> {
   _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 2000), (){});
     _screenController.isSplashScreenSeen.value = true;
-    Get.off(() => const MainPage(), duration: const Duration(milliseconds: 1000), transition: Transition.native);
+    if (_authService.isAuthenticated.value) {
+      Get.off(() => const MainPage(), duration: const Duration(milliseconds: 1000), transition: Transition.native);
+    } else {
+      Get.off(() => SignInScreen(), duration: const Duration(milliseconds: 1000), transition: Transition.native);
+    }
   }
 
   @override
@@ -37,7 +44,10 @@ class SplashScreenState extends State<SplashScreen> {
       child: Scaffold(
         backgroundColor: CeylonScapeColor.black0,
         body: Center(
-          child: SvgPicture.asset('assets/images/powered_by.svg'),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: SvgPicture.asset('assets/images/powered_by.svg'),
+          ),
         ),
       ),
     );
