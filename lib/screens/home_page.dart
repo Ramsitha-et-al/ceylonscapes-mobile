@@ -1,4 +1,11 @@
-import 'package:CeylonScape/screens/component_screen.dart';
+import 'dart:async';
+import 'package:CeylonScape/controllers/visa_controller.dart';
+import 'package:CeylonScape/screens/dummy_screen.dart';
+// import 'package:CeylonScape/screens/ai/chat_screen.dart';
+// import 'package:CeylonScape/screens/booking/booking_screen.dart';
+// import 'package:CeylonScape/screens/component_screen.dart';
+import 'package:CeylonScape/screens/visa/visa_get_started_screen.dart';
+import 'package:CeylonScape/screens/visa/visa_menu_screen.dart';
 import 'package:CeylonScape/theme/colors.dart';
 import 'package:CeylonScape/theme/fonts.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +22,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
+  final VisaController _visaController = Get.find();
+
+  // List<QuickAccessItem> quickAccessItems = [];
 
   @override
   void initState() {
     super.initState();
+    print(_visaController.isGetStartedScreenSeen.value);
   }
 
   List<SearchItem> items = [
@@ -28,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   ];
   List<QuickAccessItem> quickAccessItems = [
     QuickAccessItem(label: 'Plan your Trip', icon: '1.svg', route: DummyScreen()),
-    QuickAccessItem(label: 'Apply Visa', icon: '2.svg', route: DummyScreen()),
+    QuickAccessItem(label: 'Apply Visa', icon: '2.svg', route: VisaGetStartedScreen()),
     QuickAccessItem(label: 'Book by Train/Bus', icon: '3.svg', route: DummyScreen()),
     QuickAccessItem(label: 'Chat with AI Assistant', icon: '4.svg', route: DummyScreen()),
   ];
@@ -193,7 +204,20 @@ class _HomePageState extends State<HomePage> {
                   children: quickAccessItems.map((item) =>
                       GestureDetector(
                         onTap: () {
-                          Get.to(item.route);
+                          if (item.label == 'Apply Visa') {
+                            Get.to(
+                              _visaController.isGetStartedScreenSeen.value
+                                  ? const VisaMenuScreen()
+                                  : VisaGetStartedScreen(),
+                            );
+                          } else {
+                            // For other items, navigate to the predefined route
+                            Get.to(item.route);
+                          }
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => item.route),
+                          // );
                         },
                         child: Column(
                           children: [
@@ -442,6 +466,65 @@ class _HomePageState extends State<HomePage> {
                     )).toList()
                         .expand((widget) => [widget, const SizedBox(height: 12)])
                         .toList()
+                  // children: [
+                  //   Container(
+                  //     decoration: BoxDecoration(
+                  //       color: CeylonScapeColor.black0,
+                  //       borderRadius: BorderRadius.circular(12),
+                  //       border: Border.all(
+                  //         width: 1,
+                  //         color: CeylonScapeColor.black10
+                  //       )
+                  //     ),
+                  //     child: Row(
+                  //       children: [
+                  //         Container(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  //           child: Column(
+                  //             mainAxisAlignment: MainAxisAlignment.start,
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //               SizedBox(
+                  //                 width: 170,
+                  //                 child: Text(
+                  //                   'Top Destinations to Explore',
+                  //                   style: CeylonScapeFont.contentAccent,
+                  //                   softWrap: true,
+                  //                 ),
+                  //               ),
+                  //               const SizedBox(height: 9,),
+                  //               SizedBox(
+                  //                 width: 170,
+                  //                 child: Text(
+                  //                   'Discover the hottest travel spots for 2024, from hidden gems to must-see cities worldwide.',
+                  //                   style: CeylonScapeFont.footnoteRegular,
+                  //                   softWrap: true,
+                  //                 ),
+                  //               ),
+                  //               SizedBox(height: 9,),
+                  //               Text(
+                  //                 '6h ago',
+                  //                 style: CeylonScapeFont.footnoteRegular.copyWith(
+                  //                   color: CeylonScapeColor.primary60
+                  //                 ),
+                  //               )
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         const Spacer(),
+                  //         ClipRRect(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           child: Image.asset(
+                  //             'assets/images/news1.png',
+                  //             height: 151,
+                  //             width: 131,
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   )
+                  // ],
                 ),
               )
             ],
