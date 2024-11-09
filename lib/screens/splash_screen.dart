@@ -30,11 +30,11 @@ class SplashScreenState extends State<SplashScreen> {
   _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 2000), (){});
     _screenController.isSplashScreenSeen.value = true;
-    if (_authService.isAuthenticated.value) {
+    // if (_authService.isAuthenticated.value) {
       Get.off(() => const MainPage(), duration: const Duration(milliseconds: 1000), transition: Transition.native);
-    } else {
-      Get.off(() => SignInScreen(), duration: const Duration(milliseconds: 1000), transition: Transition.native);
-    }
+    // } else {
+    //   Get.off(() => SignInScreen(), duration: const Duration(milliseconds: 1000), transition: Transition.native);
+    // }
   }
 
   @override
