@@ -1,8 +1,10 @@
 import 'package:CeylonScape/screens/home_page.dart';
+import 'package:CeylonScape/services/auth_service.dart';
 import 'package:CeylonScape/theme/colors.dart';
 import 'package:CeylonScape/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 
 class NavLink {
@@ -23,6 +25,7 @@ class _ComponentsScreenState extends State<MainPage> {
 
   int _currentIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
+  final AuthService _authService = Get.find();
 
   @override
   void initState() {
